@@ -74,356 +74,350 @@ class _FidiGameState extends State<FidiGame> {
               SizedBox(height: 10.0),
               Column(
                 children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      width: double.maxFinite,
-                      height: 150,
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(15.0),
-                            topRight: const Radius.circular(15.0),
-                            bottomLeft: const Radius.circular(15.0),
-                            bottomRight: const Radius.circular(15.0)),
-                        boxShadow: [
-                          new BoxShadow(
-                            blurRadius: 1.0,
-                            color: Color(0xff292333),
-                          )
-                        ],
-                        border:
-                            Border.all(width: 2.5, color: Color(0xff292333)),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Column(
-                        children: [
-                          SafeArea(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                                    child: ListTile(
-                                      leading: Image.asset("assets/amongus.jpg"),
-                                      title: Padding(
-                                        padding: EdgeInsets.only(bottom: 5.0),
-                                        child: Text(
-                                          "Among Us",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        " Join your crewmates in a multiplayer game of teamwork",
-                                        style: new TextStyle(
-                                            fontSize: 12.0, color: Colors.white),
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(3.0),
-                            child: new Container(
-                              margin: EdgeInsets.all(2.0),
-                              width: double.infinity,
-                              height: 40,
-                              // color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        child:  Image.asset("assets/like.jpg"),
-                                      ),
-                                      SizedBox(
-                                        height: 2.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: new Text("240",style: new TextStyle(
-                                            color: Colors.white
-                                        ),),
-                                      )
-                                    ],
-                                  ),
-                                  ElevatedButton.icon(
-                                    icon: Icon(Icons.play_arrow),
-                                    label: Text("Play"),
-                                    onPressed: () => print("it's pressed"),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 15.0,
-                                            color: Color(0xffFCBC3D)
-                                        ),
-                                        borderRadius: BorderRadius.circular(32.0),
-
-                                      ),
-                                    ),
-
-                                  ),
-
-                                  new Row(
-                                    children: [
-                                      Icon(Icons.person_sharp,color: Colors.white,),
-                                      new Text("4-6 Players",style: new TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w100
-                                      ),)
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-
-                        ],
-                      )
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    width: double.maxFinite,
+                    height: 150,
+                    decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(15.0),
+                          topRight: const Radius.circular(15.0),
+                          bottomLeft: const Radius.circular(15.0),
+                          bottomRight: const Radius.circular(15.0)),
+                      boxShadow: [
+                        new BoxShadow(
+                          blurRadius: 1.0,
+                          color: Color(0xff292333),
+                        )
+                      ],
+                      border:
+                          Border.all(width: 2.5, color: Color(0xff292333)),
+                      shape: BoxShape.rectangle,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15.0),
-              Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      width: double.maxFinite,
-                      height: 150,
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(15.0),
-                            topRight: const Radius.circular(15.0),
-                            bottomLeft: const Radius.circular(15.0),
-                            bottomRight: const Radius.circular(15.0)),
-                        boxShadow: [
-                          new BoxShadow(
-                            blurRadius: 1.0,
-                            color: Color(0xff292333),
-                          )
-                        ],
-                        border:
-                            Border.all(width: 2.5,
-                                color: Color(0xff292333)
-                            ),
-                       shape: BoxShape.rectangle,
-                      ),
-                      child: Column(
-                        children: [
-                          SafeArea(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                                    child: ListTile(
-                                      leading: Image.asset("assets/minimiltia.jpg"),
-                                      title: Padding(
-                                        padding: EdgeInsets.only(bottom: 10.0),
-                                        child: Text(
-                                          "Mini Militia",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        " Join your crewmates in a multiplayer game of teamwork",
-                                        style: new TextStyle(
-                                            fontSize: 12.0, color: Colors.white),
-                                        maxLines: 3,
+                    child: Column(
+                      children: [
+                        SafeArea(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                                  child: ListTile(
+                                    leading: Image.asset("assets/amongus.jpg"),
+                                    title: Padding(
+                                      padding: EdgeInsets.only(bottom: 5.0),
+                                      child: Text(
+                                        "Among Us",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
                                       ),
                                     ),
+                                    subtitle: Text(
+                                      " Join your crewmates in a multiplayer game of teamwork",
+                                      style: new TextStyle(
+                                          fontSize: 12.0, color: Colors.white),
+                                      maxLines: 2,
+                                    ),
                                   ),
-                                ],
-                              )
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(3.0),
-                            child: new Container(
-                              margin: EdgeInsets.all(2.0),
-                              width: double.infinity,
-                              height: 40,
-                             // color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        child:  Image.asset("assets/like.jpg"),
-                                      ),
-                                      SizedBox(
-                                        height: 2.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: new Text("240",style: new TextStyle(
+                                ),
+                              ],
+                            )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(3.0),
+                          child: new Container(
+                            margin: EdgeInsets.all(2.0),
+                            width: double.infinity,
+                            height: 40,
+                            // color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      child:  Image.asset("assets/like.jpg"),
+                                    ),
+                                    SizedBox(
+                                      height: 2.0,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: new Text("240",style: new TextStyle(
                                           color: Colors.white
-                                        ),),
-                                      )
-                                    ],
-                                  ),
-                                  ElevatedButton.icon(
-                                    icon: Icon(Icons.play_arrow),
-                                    label: Text("Play"),
-                                    onPressed: () => print("it's pressed"),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
+                                      ),),
+                                    )
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.play_arrow),
+                                  label: Text("Play"),
+                                  onPressed: () => print("it's pressed"),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
                                           width: 15.0,
                                           color: Color(0xffFCBC3D)
-                                        ),
-                                        borderRadius: BorderRadius.circular(32.0),
-
                                       ),
-                                    ),
+                                      borderRadius: BorderRadius.circular(32.0),
 
+                                    ),
                                   ),
 
-                                  new Row(
-                                    children: [
-                                      Icon(Icons.person_sharp,color: Colors.white,),
-                                      new Text("4-6 Players",style: new TextStyle(
+                                ),
+
+                                new Row(
+                                  children: [
+                                    Icon(Icons.person_sharp,color: Colors.white,),
+                                    new Text("4-6 Players",style: new TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w100
-                                      ),)
-                                    ],
-                                  )
-                                ],
-                              ),
+                                    ),)
+                                  ],
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                          ),
+                        )
 
-                      ),
-
-                    ),
+                      ],
+                    )
                   ),
                 ],
               ),
               SizedBox(height: 15.0),
               Column(
                 children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10.0),
-                      width: double.maxFinite,
-                      height: 150,
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(15.0),
-                            topRight: const Radius.circular(15.0),
-                            bottomLeft: const Radius.circular(15.0),
-                            bottomRight: const Radius.circular(15.0)),
-                        boxShadow: [
-                          new BoxShadow(
-                            blurRadius: 1.0,
-                            color: Color(0xff292333),
-                          )
-                        ],
-                        border:
-                            Border.all(width: 2.5, color: Color(0xff292333)),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Column(
-                        children: [
-                          SafeArea(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                                    child: ListTile(
-                                      leading: Image.asset("assets/skribble.jpg"),
-                                      title: Padding(
-                                        padding: EdgeInsets.only(bottom: 10.0),
-                                        child: Text(
-                                          "Skribble.io",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        " Join your crewmates in a multiplayer game of teamwork",
-                                        style: new TextStyle(
-                                            fontSize: 12.0, color: Colors.white),
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.all(3.0),
-                            child: new Container(
-                              margin: EdgeInsets.all(2.0),
-                              width: double.infinity,
-                              height: 40,
-                              // color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        child:  Image.asset("assets/like.jpg"),
-                                      ),
-                                      SizedBox(
-                                        height: 2.0,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: new Text("240",style: new TextStyle(
-                                            color: Colors.white
-                                        ),),
-                                      )
-                                    ],
-                                  ),
-                                  ElevatedButton.icon(
-                                    icon: Icon(Icons.play_arrow),
-                                    label: Text("Play"),
-                                    onPressed: () => print("it's pressed"),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.black,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 15.0,
-                                            color: Color(0xffFCBC3D)
-                                        ),
-                                        borderRadius: BorderRadius.circular(32.0),
-
-                                      ),
-                                    ),
-
-                                  ),
-
-                                  new Row(
-                                    children: [
-                                      Icon(Icons.person_sharp,color: Colors.white,),
-                                      new Text("4-6 Players",style: new TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w100
-                                      ),)
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-
-                        ],
-                      )
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    width: double.maxFinite,
+                    height: 150,
+                    decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(15.0),
+                          topRight: const Radius.circular(15.0),
+                          bottomLeft: const Radius.circular(15.0),
+                          bottomRight: const Radius.circular(15.0)),
+                      boxShadow: [
+                        new BoxShadow(
+                          blurRadius: 1.0,
+                          color: Color(0xff292333),
+                        )
+                      ],
+                      border:
+                          Border.all(width: 2.5,
+                              color: Color(0xff292333)
+                          ),
+                     shape: BoxShape.rectangle,
                     ),
+                    child: Column(
+                      children: [
+                        SafeArea(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                                  child: ListTile(
+                                    leading: Image.asset("assets/minimiltia.jpg"),
+                                    title: Padding(
+                                      padding: EdgeInsets.only(bottom: 10.0),
+                                      child: Text(
+                                        "Mini Militia",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      " Join your crewmates in a multiplayer game of teamwork",
+                                      style: new TextStyle(
+                                          fontSize: 12.0, color: Colors.white),
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(3.0),
+                          child: new Container(
+                            margin: EdgeInsets.all(2.0),
+                            width: double.infinity,
+                            height: 40,
+                           // color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      child:  Image.asset("assets/like.jpg"),
+                                    ),
+                                    SizedBox(
+                                      height: 2.0,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: new Text("240",style: new TextStyle(
+                                        color: Colors.white
+                                      ),),
+                                    )
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.play_arrow),
+                                  label: Text("Play"),
+                                  onPressed: () => print("it's pressed"),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 15.0,
+                                        color: Color(0xffFCBC3D)
+                                      ),
+                                      borderRadius: BorderRadius.circular(32.0),
+
+                                    ),
+                                  ),
+
+                                ),
+
+                                new Row(
+                                  children: [
+                                    Icon(Icons.person_sharp,color: Colors.white,),
+                                    new Text("4-6 Players",style: new TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w100
+                                    ),)
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+
+                    ),
+
+                  ),
+                ],
+              ),
+              SizedBox(height: 15.0),
+              Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    width: double.maxFinite,
+                    height: 150,
+                    decoration: new BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(15.0),
+                          topRight: const Radius.circular(15.0),
+                          bottomLeft: const Radius.circular(15.0),
+                          bottomRight: const Radius.circular(15.0)),
+                      boxShadow: [
+                        new BoxShadow(
+                          blurRadius: 1.0,
+                          color: Color(0xff292333),
+                        )
+                      ],
+                      border:
+                          Border.all(width: 2.5, color: Color(0xff292333)),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Column(
+                      children: [
+                        SafeArea(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                                  child: ListTile(
+                                    leading: Image.asset("assets/skribble.jpg"),
+                                    title: Padding(
+                                      padding: EdgeInsets.only(bottom: 10.0),
+                                      child: Text(
+                                        "Skribble.io",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      " Join your crewmates in a multiplayer game of teamwork",
+                                      style: new TextStyle(
+                                          fontSize: 12.0, color: Colors.white),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                          padding: EdgeInsets.all(3.0),
+                          child: new Container(
+                            margin: EdgeInsets.all(2.0),
+                            width: double.infinity,
+                            height: 40,
+                            // color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      child:  Image.asset("assets/like.jpg"),
+                                    ),
+                                    SizedBox(
+                                      height: 2.0,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: new Text("240",style: new TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                    )
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.play_arrow),
+                                  label: Text("Play"),
+                                  onPressed: () => print("it's pressed"),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 15.0,
+                                          color: Color(0xffFCBC3D)
+                                      ),
+                                      borderRadius: BorderRadius.circular(32.0),
+
+                                    ),
+                                  ),
+
+                                ),
+
+                                new Row(
+                                  children: [
+                                    Icon(Icons.person_sharp,color: Colors.white,),
+                                    new Text("4-6 Players",style: new TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w100
+                                    ),)
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+
+                      ],
+                    )
                   ),
                 ],
               ),
