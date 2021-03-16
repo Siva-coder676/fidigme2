@@ -1,4 +1,6 @@
+import 'package:fidigame/AddGame/add_game.dart';
 import 'package:fidigame/Fidigame/fidigame.dart';
+import 'package:fidigame/LoginPage/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +13,7 @@ class MyGame extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.black),
-      home: FidiGame(),
+      home: AddGame(),
     );
   }
 }
