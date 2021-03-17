@@ -1,25 +1,34 @@
+import 'package:fidigame/DataModel/models.dart';
 import 'package:fidigame/Fidigame/fidigame.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class AddGame extends StatefulWidget {
-  final int minValue;
-  final int maxValue;
-  final ValueChanged<int> onChanged;
-  AddGame({Key key, this.minValue = 2, this.maxValue = 8, this.onChanged})
-      : super(key: key);
+  // FidiData fidiData;
+  // AddGame({this.fidiData});
   @override
   _AddGameState createState() => _AddGameState();
 }
 
+final notesReference = FirebaseDatabase.instance.reference().child('Fidigame');
+
 class _AddGameState extends State<AddGame> {
-  int counter = 0;
+  TextEditingController _name;
+  TextEditingController _Desc;
+  TextEditingController _url;
+  TextEditingController _MiniCount;
+  TextEditingController _MaxCount;
+
   String _dropDownValue;
+  @override
+  void initState() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 0.0,
+          titleSpacing: 0.0,
           elevation: 0.0,
           leading: IconButton(
               icon: Image.asset(
@@ -72,15 +81,24 @@ class _AddGameState extends State<AddGame> {
                   border: Border.all(width: 2.5, color: Color(0xff292333)),
                   shape: BoxShape.rectangle,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0, top: 13.0, bottom: 10.0),
-                  child: Text("Among Us",
-                      style: GoogleFonts.poppins(
-                          color: Color(0xffFEFEFE),
-                          fontStyle: FontStyle.normal,
+                child: TextField(
+                    controller: _name,
+                    textAlign: TextAlign.left,
+                    decoration: new InputDecoration(
+                      labelText: '',
+                      //contentPadding:EdgeInsets.only(left: 2.0),
+                      labelStyle: GoogleFonts.poppins(
                           fontSize: 14.0,
-                          fontWeight: FontWeight.normal)),
-                ),
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.normal,
+                          color: Color(0xffFEFEFE)),
+                      border: InputBorder.none,
+                    ),
+                    style: GoogleFonts.poppins(
+                        color: Color(0xffFEFEFE),
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal)),
               ),
               Row(
                 children: [
@@ -115,17 +133,23 @@ class _AddGameState extends State<AddGame> {
                   border: Border.all(width: 2.5, color: Color(0xff292333)),
                   shape: BoxShape.rectangle,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 16.0, top: 12.0, bottom: 50.0, right: 31.0),
-                  child: Text(
-                      "Join your crewmates in a multiplayer game of teamwork .",
-                      style: GoogleFonts.poppins(
-                          color: Color(0xffFEFEFE),
+                child: TextField(
+                    controller: _Desc,
+                    decoration: new InputDecoration(
+                      labelText: '',
+                      contentPadding: EdgeInsets.all(5.0),
+                      labelStyle: GoogleFonts.poppins(
                           fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.normal)),
-                ),
+                          color: Color(0xffFEFEFE)),
+                      border: InputBorder.none,
+                    ),
+                    style: GoogleFonts.poppins(
+                        color: Color(0xffFEFEFE),
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal)),
               ),
               new Row(
                 children: [
@@ -160,15 +184,23 @@ class _AddGameState extends State<AddGame> {
                   border: Border.all(width: 2.5, color: Color(0xff292333)),
                   shape: BoxShape.rectangle,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16.0, top: 13.0, bottom: 10.0),
-                  child: Text("www.amongus.com",
-                      style: GoogleFonts.poppins(
-                          color: Color(0xffFEFEFE),
-                          fontStyle: FontStyle.normal,
+                child: TextField(
+                    controller: _url,
+                    decoration: new InputDecoration(
+                      labelText: '',
+                      //contentPadding:EdgeInsets.all( 5.0),
+                      labelStyle: GoogleFonts.poppins(
                           fontSize: 14.0,
-                          fontWeight: FontWeight.normal)),
-                ),
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.normal,
+                          color: Color(0xffFEFEFE)),
+                      border: InputBorder.none,
+                    ),
+                    style: GoogleFonts.poppins(
+                        color: Color(0xffFEFEFE),
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal)),
               ),
               new Row(
                 children: [
@@ -199,37 +231,44 @@ class _AddGameState extends State<AddGame> {
                               color: Color(0xffFEFEFE))),
                     ),
                     SizedBox(width: 8.0),
-                    GestureDetector(
-                      onTap: () {},
-                      child: new Container(
-                        width: 34,
-                        height: 34,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(10.0),
-                              topRight: const Radius.circular(10.0),
-                              bottomLeft: const Radius.circular(10.0),
-                              bottomRight: const Radius.circular(10.0)),
-                          boxShadow: [
-                            new BoxShadow(
-                              blurRadius: 1.0,
-                              color: Color(0xff292333),
-                            )
-                          ],
-                          border:
-                              Border.all(width: 2.5, color: Color(0xff292333)),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
-                            child: Text('2',
-                                style: GoogleFonts.poppins(
-                                    color: Color(0xffFEFEFE),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w400,
-                                    fontStyle: FontStyle.normal))),
+                    new Container(
+                      width: 34,
+                      height: 34,
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(10.0),
+                            topRight: const Radius.circular(10.0),
+                            bottomLeft: const Radius.circular(10.0),
+                            bottomRight: const Radius.circular(10.0)),
+                        boxShadow: [
+                          new BoxShadow(
+                            blurRadius: 1.0,
+                            color: Color(0xff292333),
+                          )
+                        ],
+                        border:
+                            Border.all(width: 2.5, color: Color(0xff292333)),
+                        shape: BoxShape.rectangle,
                       ),
+                      child: TextField(
+                          controller: _MiniCount,
+                          keyboardType: TextInputType.number,
+                          decoration: new InputDecoration(
+                            labelText: '',
+
+                            //contentPadding:EdgeInsets.all( 5.0),
+                            labelStyle: GoogleFonts.poppins(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.normal,
+                                color: Color(0xffFEFEFE)),
+                            border: InputBorder.none,
+                          ),
+                          style: GoogleFonts.poppins(
+                              color: Color(0xffFEFEFE),
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal)),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 15.0),
@@ -241,38 +280,43 @@ class _AddGameState extends State<AddGame> {
                               color: Color(0xffFEFEFE))),
                     ),
                     SizedBox(width: 8.0),
-                    GestureDetector(
-                      onTap: () {},
-                      child: new Container(
-                        width: 34,
-                        height: 34,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(10.0),
-                              topRight: const Radius.circular(10.0),
-                              bottomLeft: const Radius.circular(10.0),
-                              bottomRight: const Radius.circular(10.0)),
-                          boxShadow: [
-                            new BoxShadow(
-                              blurRadius: 1.0,
-                              color: Color(0xff292333),
-                            )
-                          ],
-                          border:
-                              Border.all(width: 2.5, color: Color(0xff292333)),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10.0, right: 3.0, top: 3.0, bottom: 5.0),
-                          child: Text('8',
-                              style: GoogleFonts.poppins(
-                                  color: Color(0xffFEFEFE),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal)),
-                        ),
+                    new Container(
+                      width: 34,
+                      height: 34,
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(10.0),
+                            topRight: const Radius.circular(10.0),
+                            bottomLeft: const Radius.circular(10.0),
+                            bottomRight: const Radius.circular(10.0)),
+                        boxShadow: [
+                          new BoxShadow(
+                            blurRadius: 1.0,
+                            color: Color(0xff292333),
+                          )
+                        ],
+                        border:
+                            Border.all(width: 2.5, color: Color(0xff292333)),
+                        shape: BoxShape.rectangle,
                       ),
+                      child: TextField(
+                          controller: _MaxCount,
+                          keyboardType: TextInputType.number,
+                          decoration: new InputDecoration(
+                            labelText: '',
+                            //contentPadding:EdgeInsets.all( 5.0),
+                            labelStyle: GoogleFonts.poppins(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FontStyle.normal,
+                                color: Color(0xffFEFEFE)),
+                            border: InputBorder.none,
+                          ),
+                          style: GoogleFonts.poppins(
+                              color: Color(0xffFEFEFE),
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal)),
                     ),
                   ],
                 ),

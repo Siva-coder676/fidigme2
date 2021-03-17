@@ -1,6 +1,8 @@
 import 'package:fidigame/Fidigame/fidigame.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,8 +10,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String email;
+  String password;
   TextEditingController _email = new TextEditingController();
   TextEditingController _password = new TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  void emptytoast() {
+    if (_email.text.toString() == "" && _email.text.toString() != '@') {
+      Toast.show("Enter a valid Email", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    } else if (_password.text.toString() == "" && _password.text.length < 3) {
+      Toast.show("Enter a valid Password", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +76,17 @@ class _LoginPageState extends State<LoginPage> {
                 shape: BoxShape.rectangle,
               ),
               child: new TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Enter a Email";
+                  }
+                  return null;
+                },
                 style: GoogleFonts.poppins(color: Color(0xffFEFEFE)),
                 controller: _email,
+                onChanged: (value) {
+                  email = value;
+                },
                 keyboardType: TextInputType.emailAddress,
                 decoration: new InputDecoration(
                   hintText: 'Email',
@@ -101,6 +125,9 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 style: GoogleFonts.poppins(color: Color(0xffFEFEFE)),
                 controller: _password,
+                onChanged: (value) {
+                  password = value;
+                },
                 keyboardType: TextInputType.text,
                 decoration: new InputDecoration(
                   hintText: 'Password',
@@ -126,12 +153,22 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(16.0),
                     side: BorderSide(color: Color(0xffFCBC3C))),
                 color: Color(0xffFCBC3C),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          fullscreenDialog: true,
-                          builder: (Context) => FidiGame()));
+                onPressed: () async {
+                  emptytoast();
+
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (Context) => FidiGame()));
+                    }
+                  } catch (e) {
+                    print(e.toString());
+                  }
                 },
                 child: Text("Sign In",
                     style: GoogleFonts.poppins(

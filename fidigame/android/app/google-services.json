@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "305229365924",
+    "project_id": "fidigames-88a30",
+    "storage_bucket": "fidigames-88a30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305229365924:android:ae14467315e5cb612c1c31",
+        "android_client_info": {
+          "package_name": "com.example.fidigame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305229365924-al0h2b02g7h3a3ph8akgeluhi46n2bt4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD4gbX-7ta4Vub1jqaHIjHRRlMiB9A7s8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305229365924-al0h2b02g7h3a3ph8akgeluhi46n2bt4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
