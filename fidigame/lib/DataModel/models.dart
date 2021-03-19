@@ -1,38 +1,36 @@
-import 'package:firebase_database/firebase_database.dart';
-// class FidiData{
-//
-//   String _id;
-//   String _name;
-//   String _Desc;
-//   String _url;
-//   String _MiniCount;
-//   String _MaxCount;
-//
-//   FidiData(this._id, this._name, this._Desc,this._url,this._MiniCount,this._MaxCount);
-//
-//   FidiData.map(dynamic obj) {
-//   this._id = obj['id'];
-//   this._name = obj['name'];
-//   this._Desc = obj['Desc'];
-//   this._url=obj['url'];
-//   this._MiniCount=obj['MiniCount'];
-//   this._MaxCount=obj['MaxCount'];
-//   }
-//
-//   String get id => _id;
-//   String get name => _name;
-//   String get Desc => _Desc;
-//   String get url=>_url;
-//   String get MiniCount=>_MiniCount;
-//   String get MaxCount=>_MaxCount;
-//
-//   FidiData.fromSnapshot(DataSnapshot snapshot) {
-//   _id = snapshot.key;
-//   _name = snapshot.value['name'];
-//   _Desc = snapshot.value['Desc'];
-//   _url=snapshot.value['url'];
-//   _MiniCount=snapshot.value['MiniCount'];
-//   _MaxCount=snapshot.value["MaxCount"];
-//   }
-//   }
-//
+class FidiData {
+  String _name;
+  String _Desc;
+  String _url;
+  String _Minicount;
+  String _Maxcount;
+  FidiData(this._name, this._Desc, this._url, this._Minicount, this._Maxcount);
+  FidiData.map(dynamic obj) {
+    this._name = obj['name'];
+    this._Desc = obj['Desc'];
+    this._url = obj['url'];
+    this._Minicount = obj['Minicount'];
+    this._Maxcount = obj['Maxcount'];
+  }
+  String get name => _name;
+  String get Desc => _Desc;
+  String get url => _url;
+  String get Minicount => _Minicount;
+  String get Maxcount => _Maxcount;
+  Map<String ,dynamic> toMap(){
+    var map=new Map<String,dynamic>();
+    map['name']=_name;
+    map['Desc']=_Desc;
+    map['url']=_url;
+    map['Minicount']=_Minicount;
+    map['Maxcount']=_Maxcount;
+    return map;
+  }
+  FidiData.fromMap(Map<String,dynamic> map){
+    this._name=map['name'];
+    this._Desc=map['Desc'];
+    this._url=map['url'];
+    this._Minicount=map['Minicount'];
+    this._Maxcount=map['Maxcount'];
+  }
+}

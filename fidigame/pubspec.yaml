@@ -31,6 +31,11 @@ dependencies:
   google_fonts: ^0.7.0
   toast: ^0.1.5
   url_launcher: ^5.5.1
+  cloud_firestore: 
+  permission_handler: ^5.0.1+1
+  permission_handler_platform_interface: ^ 2.0.1
+  image_picker:
+  firebase_storage:
 
 dev_dependencies:
   flutter_test:

@@ -1,12 +1,18 @@
+import 'dart:io';
 import 'package:fidigame/DataModel/models.dart';
 import 'package:fidigame/Fidigame/fidigame.dart';
+import 'package:fidigame/Firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 
 class AddGame extends StatefulWidget {
-  // FidiData fidiData;
-  // AddGame({this.fidiData});
+  FidiData fidiData;
+  AddGame(this.fidiData);
   @override
   _AddGameState createState() => _AddGameState();
 }
@@ -19,10 +25,24 @@ class _AddGameState extends State<AddGame> {
   TextEditingController _url;
   TextEditingController _MiniCount;
   TextEditingController _MaxCount;
-
+   FireStoreService fireServ = new FireStoreService();
+  
+  File _image;
+  final picker = ImagePicker();
+  String _uploadFileURL;
+  CollectionReference imgColRef;
+ 
   String _dropDownValue;
   @override
-  void initState() {}
+  void initState() {
+    _name = new TextEditingController(text: widget.fidiData.name);
+    _Desc = new TextEditingController(text: widget.fidiData.Desc);
+    _url = new TextEditingController(text: widget.fidiData.url);
+    _MiniCount = new TextEditingController(text: widget.fidiData.Minicount);
+    _MaxCount = new TextEditingController(text: widget.fidiData.Maxcount);
+
+    imgColRef = FirebaseFirestore.instance.collection('imageURLs');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +56,13 @@ class _AddGameState extends State<AddGame> {
                 width: 9,
                 height: 16,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                  Navigator.push(
+                 context,
+                 MaterialPageRoute(
+           fullscreenDialog: true,
+           builder: (context) => FidiGame()));
+              }),
           title: Text("Add a Game",
               style: GoogleFonts.poppins(
                   fontSize: 20.0,
@@ -83,6 +109,7 @@ class _AddGameState extends State<AddGame> {
                 ),
                 child: TextField(
                     controller: _name,
+                   
                     textAlign: TextAlign.left,
                     decoration: new InputDecoration(
                       labelText: '',
@@ -134,14 +161,19 @@ class _AddGameState extends State<AddGame> {
                   shape: BoxShape.rectangle,
                 ),
                 child: TextField(
+                  maxLines: 2,
                     controller: _Desc,
+                    
+                   
                     decoration: new InputDecoration(
                       labelText: '',
+                    
                       contentPadding: EdgeInsets.all(5.0),
                       labelStyle: GoogleFonts.poppins(
                           fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.normal,
+          
                           color: Color(0xffFEFEFE)),
                       border: InputBorder.none,
                     ),
@@ -185,7 +217,8 @@ class _AddGameState extends State<AddGame> {
                   shape: BoxShape.rectangle,
                 ),
                 child: TextField(
-                    controller: _url,
+                   
+                     controller: _url,
                     decoration: new InputDecoration(
                       labelText: '',
                       //contentPadding:EdgeInsets.all( 5.0),
@@ -251,12 +284,13 @@ class _AddGameState extends State<AddGame> {
                         shape: BoxShape.rectangle,
                       ),
                       child: TextField(
-                          controller: _MiniCount,
+                          
+                           controller: _MiniCount,
                           keyboardType: TextInputType.number,
                           decoration: new InputDecoration(
                             labelText: '',
 
-                            //contentPadding:EdgeInsets.all( 5.0),
+                            //contentPadding:EdgeInsets.only(left: 2.0),
                             labelStyle: GoogleFonts.poppins(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
@@ -300,11 +334,12 @@ class _AddGameState extends State<AddGame> {
                         shape: BoxShape.rectangle,
                       ),
                       child: TextField(
+                          
                           controller: _MaxCount,
                           keyboardType: TextInputType.number,
                           decoration: new InputDecoration(
                             labelText: '',
-                            //contentPadding:EdgeInsets.all( 5.0),
+                           //contentPadding:EdgeInsets.only(left: 2.0),
                             labelStyle: GoogleFonts.poppins(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
@@ -432,10 +467,14 @@ class _AddGameState extends State<AddGame> {
                   border: Border.all(width: 2.5, color: Color(0xff292333)),
                   shape: BoxShape.rectangle,
                 ),
-                child: Container(
-                  child: Row(children: [
-                    IconButton(
-                      icon: Container(
+                child: GestureDetector(
+                  onTap: () {
+                    chooseImage();
+                    print("button is tapped");
+                  },
+                  child: Container(
+                    child: Row(children: [
+                      Container(
                           child: ClipRRect(
                         child: new Image.asset(
                           "assets/Upload.png",
@@ -443,16 +482,14 @@ class _AddGameState extends State<AddGame> {
                           height: 10,
                         ),
                       )),
-                      onPressed: () {},
-                      color: Colors.white,
-                    ),
-                    Text("Upload an image",
-                        style: GoogleFonts.poppins(
-                            color: Color(0xffFEFEFE),
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.normal,
-                            fontStyle: FontStyle.normal)),
-                  ]),
+                      Text("Upload an image",
+                          style: GoogleFonts.poppins(
+                              color: Color(0xffFEFEFE),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.normal)),
+                    ]),
+                  ),
                 ),
               ),
               Container(
@@ -465,7 +502,13 @@ class _AddGameState extends State<AddGame> {
                       borderRadius: BorderRadius.circular(16.0),
                       side: BorderSide(color: Color(0xffFCBC3C))),
                   color: Color(0xffFCBC3C),
-                  onPressed: () {},
+                  onPressed: () {
+                     fireServ.creategamelist(_name.text, _Desc.text,_url.text,_MiniCount.text,_MaxCount.text).then((_) {
+                       print("data added");
+                           
+                          });
+                  
+                  },
                   child: Text("Submit",
                       style: GoogleFonts.poppins(
                           color: Colors.black,
@@ -479,5 +522,52 @@ class _AddGameState extends State<AddGame> {
         ),
       ),
     );
+  }
+
+  
+
+  Future chooseImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+    uploadFile();
+
+    if (pickedFile.path == null) retrieveLostData();
+  }
+
+  Future<void> retrieveLostData() async {
+    final LostData response = await picker.getLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.file != null) {
+      setState(() {
+        _image = File(response.file.path);
+      });
+    } else {
+      print(response.file);
+    }
+  }
+
+  Future uploadFile() async {
+    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('images/${Path.basename(_image.path)}');
+
+    firebase_storage.UploadTask task = ref.putFile(_image);
+
+    task.whenComplete(() async {
+      print('file uploaded');
+      await ref.getDownloadURL().then((fileURL) {
+        setState(() {
+          _uploadFileURL = fileURL;
+        });
+      }).whenComplete(() async {
+        await imgColRef.add({'url': _uploadFileURL});
+        print('link added to database');
+      });
+    });
   }
 }
