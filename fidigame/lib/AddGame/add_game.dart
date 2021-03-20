@@ -40,8 +40,10 @@ class _AddGameState extends State<AddGame> {
     _url = new TextEditingController(text: widget.fidiData.url);
     _MiniCount = new TextEditingController(text: widget.fidiData.Minicount);
     _MaxCount = new TextEditingController(text: widget.fidiData.Maxcount);
+    
 
-    imgColRef = FirebaseFirestore.instance.collection('imageURLs');
+    imgColRef = FirebaseFirestore.instance.collection('fidigame');
+   
   }
 
   @override
@@ -503,10 +505,12 @@ class _AddGameState extends State<AddGame> {
                       side: BorderSide(color: Color(0xffFCBC3C))),
                   color: Color(0xffFCBC3C),
                   onPressed: () {
-                     fireServ.creategamelist(_name.text, _Desc.text,_url.text,_MiniCount.text,_MaxCount.text).then((_) {
-                       print("data added");
-                           
-                          });
+                    
+                     
+
+                    
+                    uploadFile();
+                     
                   
                   },
                   child: Text("Submit",
@@ -532,7 +536,7 @@ class _AddGameState extends State<AddGame> {
     setState(() {
       _image = File(pickedFile.path);
     });
-    uploadFile();
+    //uploadFile();
 
     if (pickedFile.path == null) retrieveLostData();
   }
@@ -552,20 +556,28 @@ class _AddGameState extends State<AddGame> {
   }
 
   Future uploadFile() async {
+    
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('images/${Path.basename(_image.path)}');
+    
 
     firebase_storage.UploadTask task = ref.putFile(_image);
 
     task.whenComplete(() async {
       print('file uploaded');
       await ref.getDownloadURL().then((fileURL) {
+        
         setState(() {
-          _uploadFileURL = fileURL;
+          //_uploadFileURL = fileURL;
         });
       }).whenComplete(() async {
         await imgColRef.add({'url': _uploadFileURL});
+         fireServ.creategamelist(_name.text, _Desc.text,_url.text,_MiniCount.text,_MaxCount.text,_uploadFileURL).then((_) {
+                       print("data added");
+                           
+                          });
+       
         print('link added to database');
       });
     });

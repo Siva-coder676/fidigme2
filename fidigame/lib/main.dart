@@ -17,7 +17,7 @@ class MyGame extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.black),
-      home: LoginPage(),
+      home: FidiGame(),
     );
   }
 }
