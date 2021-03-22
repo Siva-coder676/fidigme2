@@ -25,13 +25,13 @@ class _AddGameState extends State<AddGame> {
   TextEditingController _url;
   TextEditingController _MiniCount;
   TextEditingController _MaxCount;
-   FireStoreService fireServ = new FireStoreService();
-  
+  FireStoreService fireServ = new FireStoreService();
+
   File _image;
   final picker = ImagePicker();
   String _uploadFileURL;
-  CollectionReference imgColRef;
- 
+  CollectionReference myCollection;
+
   String _dropDownValue;
   @override
   void initState() {
@@ -40,10 +40,8 @@ class _AddGameState extends State<AddGame> {
     _url = new TextEditingController(text: widget.fidiData.url);
     _MiniCount = new TextEditingController(text: widget.fidiData.Minicount);
     _MaxCount = new TextEditingController(text: widget.fidiData.Maxcount);
-    
 
-    imgColRef = FirebaseFirestore.instance.collection('fidigame');
-   
+    // myCollection = FirebaseFirestore.instance.collection('fidigame');
   }
 
   @override
@@ -59,11 +57,11 @@ class _AddGameState extends State<AddGame> {
                 height: 16,
               ),
               onPressed: () {
-                  Navigator.push(
-                 context,
-                 MaterialPageRoute(
-           fullscreenDialog: true,
-           builder: (context) => FidiGame()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => FidiGame()));
               }),
           title: Text("Add a Game",
               style: GoogleFonts.poppins(
@@ -111,7 +109,6 @@ class _AddGameState extends State<AddGame> {
                 ),
                 child: TextField(
                     controller: _name,
-                   
                     textAlign: TextAlign.left,
                     decoration: new InputDecoration(
                       labelText: '',
@@ -163,19 +160,15 @@ class _AddGameState extends State<AddGame> {
                   shape: BoxShape.rectangle,
                 ),
                 child: TextField(
-                  maxLines: 2,
+                    maxLines: 2,
                     controller: _Desc,
-                    
-                   
                     decoration: new InputDecoration(
                       labelText: '',
-                    
                       contentPadding: EdgeInsets.all(5.0),
                       labelStyle: GoogleFonts.poppins(
                           fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.normal,
-          
                           color: Color(0xffFEFEFE)),
                       border: InputBorder.none,
                     ),
@@ -219,8 +212,7 @@ class _AddGameState extends State<AddGame> {
                   shape: BoxShape.rectangle,
                 ),
                 child: TextField(
-                   
-                     controller: _url,
+                    controller: _url,
                     decoration: new InputDecoration(
                       labelText: '',
                       //contentPadding:EdgeInsets.all( 5.0),
@@ -286,8 +278,7 @@ class _AddGameState extends State<AddGame> {
                         shape: BoxShape.rectangle,
                       ),
                       child: TextField(
-                          
-                           controller: _MiniCount,
+                          controller: _MiniCount,
                           keyboardType: TextInputType.number,
                           decoration: new InputDecoration(
                             labelText: '',
@@ -336,12 +327,11 @@ class _AddGameState extends State<AddGame> {
                         shape: BoxShape.rectangle,
                       ),
                       child: TextField(
-                          
                           controller: _MaxCount,
                           keyboardType: TextInputType.number,
                           decoration: new InputDecoration(
                             labelText: '',
-                           //contentPadding:EdgeInsets.only(left: 2.0),
+                            //contentPadding:EdgeInsets.only(left: 2.0),
                             labelStyle: GoogleFonts.poppins(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
@@ -505,13 +495,7 @@ class _AddGameState extends State<AddGame> {
                       side: BorderSide(color: Color(0xffFCBC3C))),
                   color: Color(0xffFCBC3C),
                   onPressed: () {
-                    
-                     
-
-                    
                     uploadFile();
-                     
-                  
                   },
                   child: Text("Submit",
                       style: GoogleFonts.poppins(
@@ -527,8 +511,6 @@ class _AddGameState extends State<AddGame> {
       ),
     );
   }
-
-  
 
   Future chooseImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -556,28 +538,26 @@ class _AddGameState extends State<AddGame> {
   }
 
   Future uploadFile() async {
-    
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('images/${Path.basename(_image.path)}');
-    
 
     firebase_storage.UploadTask task = ref.putFile(_image);
 
     task.whenComplete(() async {
       print('file uploaded');
       await ref.getDownloadURL().then((fileURL) {
-        
         setState(() {
-          //_uploadFileURL = fileURL;
+          _uploadFileURL = fileURL;
         });
       }).whenComplete(() async {
-        await imgColRef.add({'url': _uploadFileURL});
-         fireServ.creategamelist(_name.text, _Desc.text,_url.text,_MiniCount.text,_MaxCount.text,_uploadFileURL).then((_) {
-                       print("data added");
-                           
-                          });
-       
+        await fireServ
+            .creategamelist(_name.text, _Desc.text, _url.text, _MiniCount.text,
+                _MaxCount.text, _uploadFileURL)
+            .then((_) {
+          print("data added");
+        });
+
         print('link added to database');
       });
     });
