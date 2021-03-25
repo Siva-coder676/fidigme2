@@ -5,7 +5,6 @@ class FidiData {
   String _Minicount;
   String _Maxcount;
   String _image;
-  
   FidiData(this._name, this._Desc, this._url, this._Minicount, this._Maxcount,this._image);
   FidiData.map(dynamic obj) {
     this._name = obj['name'];

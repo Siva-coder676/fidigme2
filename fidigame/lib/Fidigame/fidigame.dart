@@ -1,14 +1,16 @@
 import 'dart:async';
-
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fidigame/AddGame/add_game.dart';
-import 'package:fidigame/DataModel/models.dart';
 import 'package:fidigame/Firestore/firestore_service.dart';
 import 'package:fidigame/Utils/fidibuttons.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fidigame/addgame/add_game.dart';
+import 'package:fidigame/loginpage/login.dart';
+import 'package:fidigame/model/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
 
 class FidiGame extends StatefulWidget {
   @override
@@ -16,11 +18,33 @@ class FidiGame extends StatefulWidget {
 }
 
 class _FidiGameState extends State<FidiGame> {
+  int counter = 0;
   TextEditingController _controller = new TextEditingController();
   List<FidiData> gamelist;
   FireStoreService fireServ = new FireStoreService();
   StreamSubscription<QuerySnapshot> gameData;
   ScrollController _scrollController = new ScrollController();
+  final _auth = FirebaseAuth.instance;
+  bool isLiked = false;
+
+  pressed() {
+    setState(() {
+      isLiked = !isLiked;
+    });
+  }
+
+  _signOut() async {
+    try {
+      await _auth.signOut();
+
+      return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              fullscreenDialog: true, builder: (Context) => LoginPage()));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   FetchData() {
     gamelist = new List();
@@ -38,18 +62,11 @@ class _FidiGameState extends State<FidiGame> {
   @override
   void initState() {
     FetchData();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        FetchData();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -58,18 +75,66 @@ class _FidiGameState extends State<FidiGame> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       appBar: AppBar(
-          elevation: 0.0,
-          title: Text(
-            "FidiGames",
-            style: GoogleFonts.poppins(
-                fontSize: 20.0,
-                color: Color(0xffFEFEFE),
-                fontWeight: FontWeight.w600),
-          )),
+        elevation: 0.0,
+        title: Text(
+          "FidiGames",
+          style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20.0,
+              color: Color(0xffFEFEFE),
+              fontWeight: FontWeight.w600),
+        ),
+        actions: [
+          Row(
+            children: [
+              new IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: new Text("Logout"),
+                        content: new Text("Are you sure want to Exit ?"),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Yes"),
+                            onPressed: () {
+                              _signOut();
+                            },
+                          ),
+                          new FlatButton(
+                            child: new Text("No"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  );
+                  print("Logout is done");
+                },
+                icon: Icon(Icons.logout),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 5.0),
+                child: new Text(
+                  "Logout",
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
       body: SingleChildScrollView(
-        //reverse: true,
         scrollDirection: Axis.vertical,
         child: Column(
+
           children: [
             Column(
               children: [
@@ -104,7 +169,8 @@ class _FidiGameState extends State<FidiGame> {
                         prefixIcon: Icon(Icons.search, color: Colors.white),
                         hintText: 'Search',
                         contentPadding: EdgeInsets.only(top: 4.0, bottom: 3.0),
-                        hintStyle: GoogleFonts.poppins(
+                        hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 15.0,
                             color: Colors.white,
                             fontWeight: FontWeight.w500),
@@ -119,16 +185,15 @@ class _FidiGameState extends State<FidiGame> {
                     height: 34,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      //shrinkWrap: true,
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       children: [
                         Wrap(spacing: 6.0, children: [
-                          Button1(),
+                          button_1(),
                           SizedBox(width: 2.0),
-                          Button2(),
+                          button_2(),
                           SizedBox(width: 2.0),
-                          Button3()
+                          button_3()
                         ])
                       ],
                     )),
@@ -136,12 +201,11 @@ class _FidiGameState extends State<FidiGame> {
                 Container(
                   child: Column(children: [
                     ListView.separated(
-                        controller: _scrollController,
                         separatorBuilder: (context, index) {
                           return Divider();
                         },
                         shrinkWrap: true,
-                       physics: ClampingScrollPhysics(),
+                        physics: ClampingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         itemCount: gamelist.length,
                         itemBuilder: (context, index) {
@@ -173,15 +237,22 @@ class _FidiGameState extends State<FidiGame> {
                                         child: Padding(
                                       padding: EdgeInsets.only(bottom: 10.0),
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 8.0),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 8.0),
                                         child: ListTile(
                                           leading: ClipRRect(
                                             borderRadius:
-                                                new BorderRadius.circular(
-                                                    10.0),
+                                                new BorderRadius.circular(10.0),
                                             child: Image(
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.cover,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.18,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.28,
                                               image: NetworkImage(
                                                   gamelist[index].image),
                                             ),
@@ -191,26 +262,24 @@ class _FidiGameState extends State<FidiGame> {
                                                 left: 5.0, bottom: 5.0),
                                             child: Text(
                                                 '${gamelist[index].name}',
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight:
-                                                        FontWeight.w600,
-                                                    fontStyle:
-                                                        FontStyle.normal,
+                                                style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle: FontStyle.normal,
                                                     fontSize: 18.0,
-                                                    color:
-                                                        Color(0xffFFFFFF))),
+                                                    color: Color(0xffFFFFFF))),
                                           ),
                                           subtitle: Padding(
                                             padding: const EdgeInsets.only(
                                                 left: 5.0),
                                             child: Text(
                                               '${gamelist[index].Desc}',
-                                              style: GoogleFonts.poppins(
+                                              style: TextStyle(
+                                                  fontFamily: 'Poppins',
                                                   fontSize: 10.0,
                                                   color: Color(0xffFFFFFF),
                                                   fontWeight: FontWeight.w300,
-                                                  fontStyle:
-                                                      FontStyle.normal),
+                                                  fontStyle: FontStyle.normal),
                                               maxLines: 2,
                                             ),
                                           ),
@@ -224,19 +293,63 @@ class _FidiGameState extends State<FidiGame> {
                                         Row(
                                           children: [
                                             GestureDetector(
+                                              onTap: () async {
+                                                pressed();
+                                                if (isLiked) {
+                                                  FirebaseFirestore.instance
+                                                      .collection("likes")
+                                                      .doc()
+                                                      .set(
+                                                          {
+                                                        "likes": FieldValue
+                                                            .increment(1)
+                                                      },
+                                                          SetOptions(
+                                                              merge:
+                                                                  true)).then(
+                                                          (_) {
+                                                    setState(() {
+                                                      counter++;
+                                                    });
+                                                  }).catchError((e) {
+                                                    print(e.toString());
+                                                  });
+                                                } else {
+                                                  FirebaseFirestore.instance
+                                                      .collection("unlikes")
+                                                      .doc()
+                                                      .set(
+                                                          {
+                                                        "likes": FieldValue
+                                                            .increment(-1)
+                                                      },
+                                                          SetOptions(
+                                                              merge:
+                                                                  true)).then(
+                                                          (_) {
+                                                    setState(() {
+                                                      //counter--;
+                                                    });
+                                                  });
+                                                }
+                                              },
                                               child: Container(
                                                   width: 11.08,
                                                   height: 10.09,
-                                                  child: Image.asset(
-                                                      "assets/like.png")),
+                                                  child: isLiked
+                                                      ? Image.asset(
+                                                          "assets/like.png")
+                                                      : Image.asset(
+                                                          "assets/likes.png")),
                                             ),
                                             SizedBox(
                                               width: 2.0,
                                             ),
                                             Padding(
                                               padding: EdgeInsets.all(2.0),
-                                              child: new Text("240",
-                                                  style: GoogleFonts.poppins(
+                                              child: new Text(('$counter'),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Poppins',
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.w300,
@@ -285,9 +398,9 @@ class _FidiGameState extends State<FidiGame> {
                                                 SizedBox(width: 5.0),
                                                 Text(
                                                   "Play",
-                                                  style: GoogleFonts.poppins(
-                                                      color:
-                                                          Color(0xffFFFFFF),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xffFFFFFF),
                                                       fontStyle:
                                                           FontStyle.normal,
                                                       fontSize: 12.0),
@@ -310,21 +423,21 @@ class _FidiGameState extends State<FidiGame> {
                                             SizedBox(width: 2.0),
                                             new Text(
                                                 '${gamelist[index].Minicount} -',
-                                                style: GoogleFonts.poppins(
+                                                style: TextStyle(
+                                                    fontFamily: 'Poppins',
                                                     color: Colors.white,
                                                     fontSize: 12.0,
-                                                    fontStyle:
-                                                        FontStyle.normal,
+                                                    fontStyle: FontStyle.normal,
                                                     fontWeight:
                                                         FontWeight.w300)),
                                             SizedBox(height: 5.0),
                                             new Text(
                                                 '${gamelist[index].Maxcount} Players',
-                                                style: GoogleFonts.poppins(
+                                                style: TextStyle(
+                                                    fontFamily: 'Poppins',
                                                     color: Colors.white,
                                                     fontSize: 12.0,
-                                                    fontStyle:
-                                                        FontStyle.normal,
+                                                    fontStyle: FontStyle.normal,
                                                     fontWeight:
                                                         FontWeight.w300)),
                                           ],
@@ -370,7 +483,8 @@ class _FidiGameState extends State<FidiGame> {
                         width: 4.0,
                       ),
                       Text("Add Game",
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
                             color: Color(0xff000000),
                             fontSize: 14.0,
                             fontStyle: FontStyle.normal,
@@ -387,6 +501,7 @@ class _FidiGameState extends State<FidiGame> {
       ),
     );
   }
+
   openUrl() async {
     if (await canLaunch("https://innersloth.com")) {
       await launch("https://innersloth.com");

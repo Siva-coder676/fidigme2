@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget Button1() {
+Widget button_1() {
   return GestureDetector(
     onTap: () => (print("button is tapped")),
     child: new Container(
@@ -34,7 +34,7 @@ Widget Button1() {
   );
 }
 
-Widget Button2() {
+Widget button_2() {
   return GestureDetector(
     onTap: () => (print("button is tapped")),
     child: new Container(
@@ -67,7 +67,7 @@ Widget Button2() {
   );
 }
 
-Widget Button3() {
+Widget button_3() {
   return GestureDetector(
     onTap: () => (print("button is tapped")),
     child: new Container(

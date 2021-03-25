@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'package:fidigame/DataModel/models.dart';
-final CollectionReference myCollection=FirebaseFirestore.instance.collection('fidigame');
+import 'package:fidigame/model/models.dart';
 class FireStoreService{
+  final CollectionReference myCollection=FirebaseFirestore.instance.collection('fidigame');
   Future<FidiData> creategamelist(String name,String Desc,String url,String Minicount,String Maxcount,String image) async{
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(myCollection.doc());
