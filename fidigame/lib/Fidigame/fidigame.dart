@@ -2,15 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fidigame/Firestore/firestore_service.dart';
-import 'package:fidigame/Utils/fidibuttons.dart';
 import 'package:fidigame/addgame/add_game.dart';
 import 'package:fidigame/loginpage/login.dart';
 import 'package:fidigame/model/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 
 class FidiGame extends StatefulWidget {
   @override
@@ -26,6 +23,13 @@ class _FidiGameState extends State<FidiGame> {
   ScrollController _scrollController = new ScrollController();
   final _auth = FirebaseAuth.instance;
   bool isLiked = false;
+  String PlayerSize;
+
+  _selectPlayersize(String s) {
+    setState(() {
+      PlayerSize = s;
+    });
+  }
 
   pressed() {
     setState(() {
@@ -61,6 +65,7 @@ class _FidiGameState extends State<FidiGame> {
 
   @override
   void initState() {
+    PlayerSize = "2 Players";
     FetchData();
   }
 
@@ -134,7 +139,6 @@ class _FidiGameState extends State<FidiGame> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
-
           children: [
             Column(
               children: [
@@ -181,19 +185,51 @@ class _FidiGameState extends State<FidiGame> {
                 ),
                 SizedBox(height: 15.0),
                 Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-                    height: 34,
+                    margin: EdgeInsets.symmetric(horizontal: 15.0),
+                    height: 40,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       children: [
-                        Wrap(spacing: 6.0, children: [
-                          button_1(),
-                          SizedBox(width: 2.0),
-                          button_2(),
-                          SizedBox(width: 2.0),
-                          button_3()
+                        Wrap(spacing: 10.0, children: [
+                          ActionChip(
+                              label: Text("2 Players"),
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              backgroundColor: PlayerSize == "2 Players"
+                                  ? Color(0xffFCBC3D)
+                                  : Color(0xff292333),
+                              onPressed: () =>
+                                  (_selectPlayersize("2 Players"))),
+                          ActionChip(
+                              label: Text("3 - 6 Players"),
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              backgroundColor: PlayerSize == "3 -6 Players"
+                                  ? Color(0xffFCBC3D)
+                                  : Color(0xff292333),
+                              onPressed: () =>
+                                  (_selectPlayersize("3 -6 Players"))),
+                          ActionChip(
+                              label: Text("More than 6 Players"),
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              backgroundColor:
+                                  PlayerSize == "More than 6 Players"
+                                      ? Color(0xffFCBC3D)
+                                      : Color(0xff292333),
+                              onPressed: () =>
+                                  (_selectPlayersize("More than 6 Players"))),
                         ])
                       ],
                     )),
@@ -235,7 +271,7 @@ class _FidiGameState extends State<FidiGame> {
                                   children: [
                                     SafeArea(
                                         child: Padding(
-                                      padding: EdgeInsets.only(bottom: 10.0),
+                                      padding: EdgeInsets.only(bottom: 5.0),
                                       child: Container(
                                         margin:
                                             EdgeInsets.symmetric(vertical: 8.0),
@@ -259,7 +295,7 @@ class _FidiGameState extends State<FidiGame> {
                                           ),
                                           title: Padding(
                                             padding: EdgeInsets.only(
-                                                left: 5.0, bottom: 5.0),
+                                                left: 5.0, bottom: 15.0),
                                             child: Text(
                                                 '${gamelist[index].name}',
                                                 style: TextStyle(
@@ -271,7 +307,8 @@ class _FidiGameState extends State<FidiGame> {
                                           ),
                                           subtitle: Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 5.0),
+                                              left: 10.0,
+                                            ),
                                             child: Text(
                                               '${gamelist[index].Desc}',
                                               style: TextStyle(

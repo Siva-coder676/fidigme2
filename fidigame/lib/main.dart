@@ -1,5 +1,6 @@
 
-import 'package:fidigame/loginpage/login.dart';
+
+import 'package:fidigame/fidigame/fidigame.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +16,7 @@ class MyGame extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: Colors.black),
-        home:LoginPage()
+        home:FidiGame()
         );
   }
 }

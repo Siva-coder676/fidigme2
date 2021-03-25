@@ -43,13 +43,15 @@ class _AddGameState extends State<AddGame> {
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
+    Future.delayed(Duration.zero, () async {
+      _name.dispose();
+      _Desc.dispose();
+      _url.dispose();
+      _MiniCount.dispose();
+      _MaxCount.dispose();
+    });
     super.dispose();
-    _name.dispose();
-    _Desc.dispose();
-    _url.dispose();
-    _MiniCount.dispose();
-    _MaxCount.dispose();
   }
 
   @override
@@ -70,8 +72,7 @@ class _AddGameState extends State<AddGame> {
                     context,
                     MaterialPageRoute(
                         fullscreenDialog: true,
-                        builder: (context) => FidiGame())
-                        );
+                        builder: (context) => FidiGame()));
               }),
           title: Text("Add a Game",
               style: TextStyle(
