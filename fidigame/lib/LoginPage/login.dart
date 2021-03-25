@@ -1,10 +1,7 @@
 import 'package:fidigame/Fidigame/fidigame.dart';
-import 'package:fidigame/addgame/add_game.dart';
-import 'package:fidigame/model/models.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
@@ -51,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(
                     child: Text("Fidigames",
                         style: TextStyle(
-                        fontFamily: 'Poppins',
+                            fontFamily: 'Poppins',
                             fontSize: 32.0,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w600,
@@ -62,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
             new Center(
               child: Text("Log In",
                   style: TextStyle(
-                        fontFamily: 'Poppins',
+                      fontFamily: 'Poppins',
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.normal,
@@ -74,9 +71,8 @@ class _LoginPageState extends State<LoginPage> {
               width: 330,
               height: 50.0,
               child: new TextFormField(
-                style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xffFEFEFE)),
+                style:
+                    TextStyle(fontFamily: 'Poppins', color: Color(0xffFEFEFE)),
                 controller: _email,
                 onChanged: (value) {
                   email = value;
@@ -85,10 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: new InputDecoration(
                   hintText: 'Email',
                   contentPadding: EdgeInsets.all(10.0),
-                  hintStyle:TextStyle(
-                        fontFamily: 'Poppins',color: Colors.white),
-                  labelStyle:TextStyle(
-                        fontFamily: 'Poppins',
+                  hintStyle:
+                      TextStyle(fontFamily: 'Poppins', color: Colors.white),
+                  labelStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
                       fontStyle: FontStyle.normal,
@@ -113,9 +109,8 @@ class _LoginPageState extends State<LoginPage> {
               width: 330,
               height: 50.0,
               child: new TextFormField(
-                 style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xffFEFEFE)),
+                style:
+                    TextStyle(fontFamily: 'Poppins', color: Color(0xffFEFEFE)),
                 obscureText: true,
                 controller: _password,
                 onChanged: (value) {
@@ -125,10 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: new InputDecoration(
                   hintText: 'Password',
                   contentPadding: EdgeInsets.all(10.0),
-                  hintStyle: TextStyle(
-                        fontFamily: 'Poppins',color: Colors.white),
-                  labelStyle:TextStyle(
-                        fontFamily: 'Poppins',
+                  hintStyle:
+                      TextStyle(fontFamily: 'Poppins', color: Colors.white),
+                  labelStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
                       fontStyle: FontStyle.normal,
@@ -149,25 +144,36 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20.0),
             Padding(
-              padding: EdgeInsets.only(top: 37, left: 107, right: 107, bottom: 49),
-                          child: Container(
-                            width: 200,
-                            height: 48,
+              padding:
+                  EdgeInsets.only(top: 37, left: 107, right: 107, bottom: 49),
+              child: Container(
+                width: 200,
+                height: 48,
                 child: RaisedButton(
-                  
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                       side: BorderSide(color: Color(0xffFCBC3C))),
                   color: Color(0xffFCBC3C),
                   onPressed: () async {
                     emptytoast();
-                    FirebaseLogin();
-                    Navigator.push(context, MaterialPageRoute(
-                      builder:(context)=>LoginPage()));
-                   
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                      if (newUser != null) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (Context) => FidiGame()));
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                    
                   },
                   child: Text("Sign In",
-                      style:TextStyle(
+                      style: TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.black,
                           fontSize: 14.0,
@@ -180,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
             new Center(
               child: Text("or sign in with",
                   style: TextStyle(
-                        fontFamily: 'Poppins',
+                      fontFamily: 'Poppins',
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.normal,
@@ -190,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
             new Center(
               child: Text("New user? Sign In",
                   style: TextStyle(
-                        fontFamily: 'Poppins',
+                      fontFamily: 'Poppins',
                       fontSize: 14.0,
                       fontWeight: FontWeight.w500,
                       fontStyle: FontStyle.normal,
@@ -202,24 +208,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  
-FirebaseLogin() async{
-   try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              fullscreenDialog: true,
-                              builder: (Context) => FidiGame()));
-                    }
-                  } catch (e) {
-                    print(e.toString());
-                  }
-
-}
-
 }
 
 class MyClipper extends CustomClipper<Path> {
